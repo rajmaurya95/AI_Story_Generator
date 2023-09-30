@@ -48,8 +48,8 @@ const AddNote = (props) => {
       method: 'POST',
       headers: {
           'Content-Type': 'application/json',
-          'Authorization': 'Bearer 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',
-          organization: "org-fQdTvsPgzTP3tTOsioP121De",
+          'Authorization': 'Bearer YOUR-API-KEY',
+          organization: "ID",
       },
       body: JSON.stringify({
           model: 'gpt-3.5-turbo-instruct',
