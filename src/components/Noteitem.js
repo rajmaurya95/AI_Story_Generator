@@ -10,9 +10,9 @@ const Noteitem = (props) => {
     
     const { note,updateNote } = props;
     return (
-        <div className='col-md-4 '>
-            <div className="card my-3">
-                <div className="card-header">{note.tag}</div>
+        <div className='col-md-12  '>
+            <div className="card my-3 bg-light">
+                <div className="card-header bg-success">{note.tag}</div>
                 <div className="card-body">
                     <h5 className="card-title">{note.title}</h5>
                     <p className="card-text">{note.description}</p>

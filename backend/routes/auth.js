@@ -44,7 +44,7 @@ router.post('/createuser',[
       success=true;
 
       const authtoken=jwt.sign(data,JWT_SECRET)
-    //   console.log(authtoken);
+      console.log(authtoken);
       res.json({success,authtoken})
     } catch(error){
         res.status(500).send('internal server error')
@@ -103,7 +103,7 @@ router.post('/getuser',fetchuser,async(req,res)=>{
 try {
     userId=req.user.id;
     const user=await User.findById(userId).select("-password")
-    res.send(user)
+    res.send(user);
     
 } catch (error) {
     

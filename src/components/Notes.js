@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useRef ,useState} from 'react'
+import React, { useContext, useEffect, useRef ,useState} from 'react';
 import noteContext from '../context/notes/NoteContext';
 import AddNote from './AddNote';
 import Noteitem from './Noteitem';
@@ -32,19 +32,47 @@ const Notes = (props) => {
 
   const handleclick=(e)=>{
     // console.log('updating a note',note)
-    editNote(note.id,note.etitle,note.edescription,note.etag)
+    editNote(note.id,note.etitle,note.edescription,note.etag);
     refclose.current.click();
     props.showAlert("Updated Successfully","success")
-
 
   }
   const onChange=(e)=>{
     setNote({...note,[e.target.name]:e.target.value})
   }
+  //pagination prev
+  const [page, setPages] = useState(0)
+  
+
+  const getPrevPage=()=>{
+setPages(page-1);
+  }
+  const getNextPage=()=>{
+    setPages(page+1);
+  }
+  
+/////////////
+
+const itemsPerPage = 4; // Number of items to display per page
+
+const Tpages = Math.ceil(notes.length / itemsPerPage);
+
+// const reversedArray = notes.ma
+
+const displayedNotes = notes.slice(
+  page * itemsPerPage,
+  (page + 1) * itemsPerPage
+);
+
+const reversedArray = displayedNotes;
+
+
+
+////////////////////
 
   return (
     <>
-      <AddNote showAlert={props.showAlert} />
+      <AddNote showAlert={props.showAlert}  />
       <button type="button" className="btn btn-primary d-none" data-bs-toggle="modal" ref={ref} data-bs-target="#exampleModal">
         Launch demo modal
       </button>
@@ -58,15 +86,22 @@ const Notes = (props) => {
             </div>
             <div className="modal-body">
               <form className='form1'>
-                <div className="mb-3">
-                  <label htmlFor="tag" className="form-label" >Tag</label>
+
+{/* tag */}
+
+                <div className="mb-3 d-none">
+                  <label htmlFor="tag" className="form-label" >TAG</label>
                   <input type="text" className="form-control" id="etitle" name='etag' value={note.etag} onChange={onChange}/>
-                </div><div className="mb-3">
-                  <label htmlFor="title" className="form-label" >Title</label>
+                </div>
+                
+                {/* title  */}
+
+                <div className="mb-3 d-none">
+                  <label htmlFor="title" className="form-label" >TITLE</label>
                   <input type="textarea" className="form-control" value={note.etitle} id="etitle" name='etitle' onChange={onChange}  />
                 </div>
                 <div className="mb-3">
-                  <label htmlFor="description" className="form-label">Description</label>
+                  <label htmlFor="description" className="form-label">STORY</label>
                   {/* <input type="textarea" className="form-control" id="desc" name='description'  onChange={onChange}/> */}
                   <textarea name="edescription" className="form-control" value={note.edescription} id="edesc" cols="30" rows="4" onChange={onChange} style={{ resize: 'none' }} ></textarea>
                 </div>
@@ -74,21 +109,34 @@ const Notes = (props) => {
               </form>
             </div>
             <div className="modal-footer">
-              <button ref={refclose} type="button" className="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-              <button disabled={note.etitle.length<5 || note.edescription.length<5} type="button" className="btn btn-primary" onClick={handleclick}>Update Note</button>
+              <button ref={refclose} type="button" className="btn btn-secondary" data-bs-dismiss="modal">CLOSE</button>
+              <button disabled={note.etitle.length<5 || note.edescription.length<5} type="button" className="btn btn-primary" onClick={handleclick}>UPDATE STORY</button>
             </div>
           </div>
         </div>
       </div>
       <div className="row my-3 mx-2">
-        <h1 className='my-3'>Your Notes</h1>
-        {notes.length===0 && <h3>No notes to display</h3>}
-        {notes.map((note, index) => {
+        <h1 className='my-3 text-white'>YOUR STORIES</h1>
+        {notes.length===0 && <h3 className='my-3 text-whitw' >NO STORIES TO DISPLAY</h3>}
+       
+        
+      </div>
+    
+    
+    
+
+      <div className='row my-3 mx-2'>
+     {reversedArray.map((note, index) => {
           return <Noteitem key={index} note={note} updateNote={updateNote} showAlert={props.showAlert} />
         })}
       </div>
+      <div className=' d-row gap-2 col-4 text-white mx-auto p-2 '>
+      <button className='btn btn-primary'  onClick={getPrevPage} disabled = {page=== 0} type='button'>PREV</button> 
+      {page} of {Tpages}     
+      <button className='btn btn-primary' onClick={getNextPage} disabled={page===Tpages} type='button'>NEXT</button>      
+    </div>
     </>
   )
 }
 
-export default Notes
+export default Notes;
